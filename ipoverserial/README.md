@@ -26,11 +26,11 @@ Get things up and running so both devices can be accessed on the command-line fr
 ```
 % apt install ax25-apps ax25-tools
 ```
-7. On RPi-A download [bridge_startup.sh](bridge_startup.sh) file to `/home/pi`. Link `.startup.sh` to `bridge_startup.sh` and set executable.
+7. On RPi-A download [bridge_startup.sh](bridge_startup.sh) file to `/home/pi`. Link `.startup.sh` to `bridge_startup.sh` and set `.startup.sh` to be executable.
 ```
 % ln -s bridge_startup.sh .startup.sh; chmod +x .startup.sh
 ```
-8. On RPi-B download the [satellite_startup.sh](satellite_startup.sh) file to `home/pi`.
+8. On RPi-B download the [satellite_startup.sh](satellite_startup.sh) file to `home/pi`. Link `.startup.sh` to `satellite_startup.sh` and set `.startup.sh` to be executable.
 ```
 % ln -s satellite_startup.sh .startup.sh; chmod +x .startup.sh
 ```
