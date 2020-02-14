@@ -6,7 +6,7 @@ Demonstration code / configuration for setting up a raspberry pi internet connec
 See instructions for [IP over Serial](../ipoverserial/README.md) for the RPi configuration needed. This is not changed for IP via Arduino.
 
 ## Instructions
-1. Install 4-channel BSS138 I2C-safe Bi-directional Logic Level Converter (LLC) in breadboard. 
+1. Install [4-channel BSS138 I2C-safe Bi-directional Logic Level Converter](https://www.adafruit.com/product/757) (LLC) in breadboard. 
 1. Connect wires:
    * RPi-A GPIO GND (pin 6) to LLC LOW-SIDE GND 
    * RPi-A GPIO RX (pin 10) to LLC A1
