@@ -22,11 +22,11 @@ Get things up and running so both devices can be accessed on the command-line fr
    * RPi-A GPIO RX (pin 10) to RPi-B GPIO TX (pin 8). 
 7. On RPi-A, download [bridge_setup.sh](bridge_setup.sh) and execute. 
 ```
-rpi-a% wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/bridge_setup.sh' | sh 
+wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/bridge_setup.sh' | sh 
 ```
 8. On RPi-B, download the [satellite_setup.sh](satellite_setup.sh) and execute.
 ```
-rpi-b% wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/satellite_setup.sh' | sh 
+wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/satellite_setup.sh' | sh 
 ```
 9. Restart both RPi-A and RPi-B.
 
