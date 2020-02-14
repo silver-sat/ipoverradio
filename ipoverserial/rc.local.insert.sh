@@ -1,11 +1,11 @@
 #
 # In /home/pi, link the relevant startup script:
 #
-#   ln -s testing/bridge_startup.sh .startup.sh
+#   ln -s bridge_startup.sh .startup.sh
 #
 # or
 #
-#   ln -s testing/satellite_startup.sh .startup.sh
+#   ln -s satellite_startup.sh .startup.sh
 #
 # and
 #
