@@ -34,11 +34,17 @@ sudo nano /etc/ax25/axports
 ```
 7. On RPi-A, download [bridge_startup.sh](bridge_startup.sh) file to `/home/pi`. Link `.startup.sh` to `bridge_startup.sh` and set `.startup.sh` to be executable.
 ```
-% cd /home/pi; ln -s bridge_startup.sh .startup.sh; chmod +x .startup.sh
+rpi-a% cd
+rpi-a% wget -O bridge_startup.sh 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/bridge_startup.sh'
+rpi-a% ln -s bridge_startup.sh .startup.sh
+rpi-a% chmod +x .startup.sh
 ```
 8. On RPi-B, download the [satellite_startup.sh](satellite_startup.sh) file to `/home/pi`. Link `.startup.sh` to `satellite_startup.sh` and set `.startup.sh` to be executable.
 ```
-% cd /home/pi; ln -s satellite_startup.sh .startup.sh; chmod +x .startup.sh
+rpi-b% cd
+rpi-b% wget -O satellite_startup.sh 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/satellite_startup.sh'
+rpi-b% ln -s satellite_startup.sh .startup.sh
+rpi-b% chmod +x .startup.sh
 ```
 9. Restart both RPi-A and RPi-B.
 
