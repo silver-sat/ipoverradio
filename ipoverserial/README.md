@@ -14,7 +14,7 @@ Get things up and running so both devices can be accessed on the command-line fr
 ```
 4. Set the WiFi router to provide consistent predictable IP addresses for each raspberry pi (after initial connection you'll usually be able to see each pi's MAC address). I used 10.0.0.101 and 10.0.0.102. 
 5. Reboot the raspbery pis so they get assigned their assigned IP addresses. 
-6. Download the [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) ssh client and check you can connect to each pi at their IP address, using the username pi, and the password set in step 1 or 2. 
+6. Download the [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) ssh client and check you can connect to each pi at their IP address (10.0.0.101 or 10.0.0.102), using the username pi, and the password set in step 1 or 2. 
 
 ## Instructions
 1. If not already done, run raspi-config and ensure that hardward serial is on, and the login shell is not accessible over the serial interface.
