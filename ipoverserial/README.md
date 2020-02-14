@@ -1,9 +1,9 @@
 # ipoverserial
-Demonstration code / configuration for setting up a raspberry pi internet connection over a serial link to another (internet connected) raspberry pi. Tested on two Raspbery Pi Zero W running rapberian buster. 
+Demonstration code / configuration for setting up a raspberry pi internet connection over a serial link to another (internet connected) raspberry pi. Tested on two Raspbery Pi Zero Ws running Rapberian buster. 
 
 ## Preamble
 Get things up and running so both devices can be accessed on the command-line from a single laptop.
-1. Get each raspbery pi running and configured by connecting a keyboard, mouse, and monitor as needed.
+1. Get each raspbery pi running and configured by connecting a keyboard, mouse, and monitor as needed. Call one "rpi-a" and one "rpi-b". 
 2. Run raspi-config and ensure that ssh, i2c, spi, and hardware serial are on, and that the login shell is not accessible over the serial interface. 
 3. Set up each raspberry pi to automatically connect to a convenient WiFi network by editing `/etc/wpa_supplicant/wpa_supplicant.conf` to provide SSID and password - append the following at the end of file. 
 ```
