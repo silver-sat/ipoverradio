@@ -20,18 +20,6 @@ Get things up and running so both devices can be accessed on the command-line fr
    * RPi-A GPIO GND (pin 6) to RPi-B GPIO GND (pin 6)
    * RPi-A GPIO TX (pin 8) to RPi-B GPIO RX (pin 10)
    * RPi-A GPIO RX (pin 10) to RPi-B GPIO TX (pin 8). 
-4. On both RPi-A and RPi-B, add the contents of [rc.local.insert.sh](rc.local.insert.sh) to the end of `/etc/rc.local` before `exit 0`.
-```
-sudo nano /etc/rc.local
-```
-5. On both RPi-A and RPi-B, add the contents of [axports.append.txt](axports.append.txt) to the end of `/etc/ax25/axports`.
-```
-sudo nano /etc/ax25/axports
-```
-6. On both RPi-A and RPi-B, ensure the ax25 tools are installed
-```
-% sudo apt install ax25-apps ax25-tools
-```
 7. On RPi-A, download [bridge_setup.sh](bridge_setup.sh) and execute. 
 ```
 rpi-a% wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/bridge_setup.sh' | sh 
