@@ -32,19 +32,13 @@ sudo nano /etc/ax25/axports
 ```
 % sudo apt install ax25-apps ax25-tools
 ```
-7. On RPi-A, download [bridge_startup.sh](bridge_startup.sh) file to `/home/pi`. Link `.startup.sh` to `bridge_startup.sh` and set `.startup.sh` to be executable.
+7. On RPi-A, download [bridge_setup.sh](bridge_setup.sh) and execute. 
 ```
-rpi-a% cd
-rpi-a% wget -O bridge_startup.sh 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/bridge_startup.sh'
-rpi-a% ln -s bridge_startup.sh .startup.sh
-rpi-a% chmod +x .startup.sh
+rpi-a% wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/bridge_setup.sh' | sh 
 ```
-8. On RPi-B, download the [satellite_startup.sh](satellite_startup.sh) file to `/home/pi`. Link `.startup.sh` to `satellite_startup.sh` and set `.startup.sh` to be executable.
+8. On RPi-B, download the [satellite_setup.sh](satellite_setup.sh) and execute.
 ```
-rpi-b% cd
-rpi-b% wget -O satellite_startup.sh 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/satellite_startup.sh'
-rpi-b% ln -s satellite_startup.sh .startup.sh
-rpi-b% chmod +x .startup.sh
+rpi-a% wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/satellite_setup.sh' | sh 
 ```
 9. Restart both RPi-A and RPi-B.
 
