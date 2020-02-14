@@ -17,6 +17,7 @@ sudo chmod +x /etc/rc.local
 sed -e '/^serial/d' /etc/ax25/axports > /tmp/axports
 wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/axports.append.txt' >> /tmp/axports
 sudo cat /tmp/axports > /etc/ax25/axports
+sudo chown root.root /etc/ax25/axports
 
 # Download and place appropriate startup script
 wget -q -O bridge_startup.sh 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/bridge_startup.sh'
