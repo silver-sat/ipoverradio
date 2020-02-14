@@ -15,7 +15,7 @@
 #
 
 # Ensure wifi is turned on
-rfkill unblock wifi
+rfkill unblock wifi || true
 
 if [ -x /home/pi/.startup.sh ]; then
    /home/pi/.startup.sh >/home/pi/.startup.log 2>&1 &
