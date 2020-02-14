@@ -27,7 +27,7 @@ Get things up and running so both devices can be accessed on the command-line fr
 ```
 sudo nano /etc/rc.local
 ```
-5. On both RPi-A and RPi-B, add the contents of [axports](axports) to the end of `/etc/ax25/axports`.
+5. On both RPi-A and RPi-B, add the contents of [axports.append.txt](axports.append.txt) to the end of `/etc/ax25/axports`.
 ```
 sudo nano /etc/ax25/axports
 ```
