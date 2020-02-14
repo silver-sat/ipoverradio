@@ -20,7 +20,9 @@ Get things up and running so both devices can be accessed on the command-line fr
 1. If not already done, run raspi-config and ensure that hardward serial is on, and the login shell is not accessible over the serial interface.
 2. RPi-A (10.0.0.101 over WiFi, 192.168.100.101 over serial) will be the bridge to the internet for RPi-B (10.0.0.102 over WiFi, 192.168.100.102 over serial).
 3. Connect wires:
-   * RPi-A GPIO GND (pin 6) to RPi-B GPIO GND (pin 6); RPi-A GPIO TX (pin 8) to RPi-B GPIO RX (pin 10); and RPi-A GPIO RX (pin 10) to RPi-B GPIO TX (pin 8). 
+   * RPi-A GPIO GND (pin 6) to RPi-B GPIO GND (pin 6)
+   * RPi-A GPIO TX (pin 8) to RPi-B GPIO RX (pin 10)
+   * RPi-A GPIO RX (pin 10) to RPi-B GPIO TX (pin 8). 
 4. On both RPi-A and RPi-B, add the contents of [rc.local.insert.sh](rc.local.insert.sh) to the end of `/etc/rc.local` before `exit 0`.
 ```
 sudo nano /etc/rc.local
