@@ -21,7 +21,7 @@ See instructions for [IP over Serial](../ipoverserial/README.md) for the RPi con
    * MEGA RX3 (pin 15) to LLC B2
    * MEGA TX2 (pin 16) to LLC B3
    * MEGA RX2 (pin 17) to LLC B4
-1. Push the file [SerialPassthrough](SerialPassthrough) to the Arduino Mega
+1. Push the file [SerialPassthrough.ino](SerialPassthrough.ino) to the Arduino Mega
 1. Reboot the raspberry pis. 
    
    
