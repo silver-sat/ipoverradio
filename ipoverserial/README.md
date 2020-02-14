@@ -76,5 +76,5 @@ rpi-b% ping 192.168.100.101
 ```
 10. Full internet connection test
 ```
-rpi-b% wget -O /dev/null http://google.com
+rpi-b% wget -O /dev/null http://ipv4.download.thinkbroadband.com/10MB.zip
 ```
