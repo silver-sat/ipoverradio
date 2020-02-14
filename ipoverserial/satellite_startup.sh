@@ -1,5 +1,5 @@
 
-# Run as root from /etc/rc.local
+# Note, run as root from /etc/rc.local
 set -x
 
 # Commands at boot for bridge raspberry pi: Bridge is 192.168.100.101
