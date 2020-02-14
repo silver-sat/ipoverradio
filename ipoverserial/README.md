@@ -18,20 +18,26 @@ Get things up and running so both devices can be accessed on the command-line fr
 
 ## Instructions
 1. If not already done, run raspi-config and ensure that hardward serial is on, and the login shell is not accessible over the serial interface.
-2. RPi-A (10.0.0.101) will be the bridge to the internet for RPi-B (10.0.0.102 over WiFi).
+2. RPi-A (10.0.0.101 over WiFi, 192.168.100.101 over serial) will be the bridge to the internet for RPi-B (10.0.0.102 over WiFi, 192.168.100.102 over serial).
 3. Connect wires from RPi-A GPIO GND to RPi-B GPIO GND; RPi-A GPIO TX to RPi-B GPIO RX; and RPi-A GPIO RX to RPi-B GPIO TX. 
 4. On both RPi-A and RPi-B, add the contents of [rc.local.insert.sh](rc.local.insert.sh) to the end of `/etc/rc.local` before `exit 0`.
+```
+sudo nano /etc/rc.local
+```
 5. On both RPi-A and RPi-B, add the contents of [axports](axports) to the end of `/etc/ax25/axports`.
+```
+sudo nano /etc/ax25/axports
+```
 6. On both RPi-A and RPi-B, ensure the ax25 tools are installed
 ```
-% apt install ax25-apps ax25-tools
+% sudo apt install ax25-apps ax25-tools
 ```
-7. On RPi-A download [bridge_startup.sh](bridge_startup.sh) file to `/home/pi`. Link `.startup.sh` to `bridge_startup.sh` and set `.startup.sh` to be executable.
+7. On RPi-A, download [bridge_startup.sh](bridge_startup.sh) file to `/home/pi`. Link `.startup.sh` to `bridge_startup.sh` and set `.startup.sh` to be executable.
 ```
-% ln -s bridge_startup.sh .startup.sh; chmod +x .startup.sh
+% cd /home/pi; ln -s bridge_startup.sh .startup.sh; chmod +x .startup.sh
 ```
-8. On RPi-B download the [satellite_startup.sh](satellite_startup.sh) file to `home/pi`. Link `.startup.sh` to `satellite_startup.sh` and set `.startup.sh` to be executable.
+8. On RPi-B, download the [satellite_startup.sh](satellite_startup.sh) file to `/home/pi`. Link `.startup.sh` to `satellite_startup.sh` and set `.startup.sh` to be executable.
 ```
-% ln -s satellite_startup.sh .startup.sh; chmod +x .startup.sh
+% cd /home/pi; ln -s satellite_startup.sh .startup.sh; chmod +x .startup.sh
 ```
 
