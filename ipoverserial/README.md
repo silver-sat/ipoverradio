@@ -67,11 +67,15 @@ rpi-a% ssh 192.168.100.102
 ```
 rpi-b% ifconfig ax0
 ```
-8. Check `route` - should show a route for 192.168.100.XXX via ax0, and a default route for all IP address via 192.168.100.101 (RPi-A).
+8. Check `route` - should show a route for `192.168.100.XXX` via `ax0`, and a default route for all IP address via `192.168.100.101` (RPi-A).
 ```
-route -n 
+rbi-b% route -n 
 ```
 9. Ping RPi-A.
 ```
 rpi-b% ping 192.168.100.101
+```
+10. Full internet connection test
+```
+rpi-b% wget -o /dev/null http://google.com
 ```
