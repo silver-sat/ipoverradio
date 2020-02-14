@@ -5,12 +5,9 @@ Demonstration code / configuration for setting up a raspberry pi internet connec
 Get things up and running so both devices can be accessed on the command-line from a single laptop.
 1. Get each raspbery pi running and configured by connecting a keyboard, mouse, and monitor as needed. Call one `rpi-a` and one `rpi-b`. 
 2. Run raspi-config and ensure that ssh, i2c, spi, and hardware serial are on, and that the login shell is not accessible over the serial interface. 
-3. Set up each raspberry pi to automatically connect to a convenient WiFi network by editing `/etc/wpa_supplicant/wpa_supplicant.conf` to provide SSID and password - append the following at the end of file.
+3. Set up each raspberry pi to automatically connect to a convenient WiFi network by editing `/etc/wpa_supplicant/wpa_supplicant.conf` to provide SSID and password - append [wpa_supplicant.conf.append.txt](wpa_supplicant.conf.append.txt) at the end of file.
 ```
-      network={
-          ssid="<SSID>"
-          psk="<PASSWORD>"
-      }
+% sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
 ```
 4. Set the WiFi router to provide consistent predictable IP addresses for each raspberry pi (after initial connection you'll usually be able to see each pi's MAC address). I used 10.0.0.101 and 10.0.0.102. 
 5. Reboot the raspbery pis so they get assigned their assigned IP addresses. 
