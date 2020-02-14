@@ -26,7 +26,7 @@ rpi-a% wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/ma
 ```
 8. On RPi-B, download the [satellite_setup.sh](satellite_setup.sh) and execute.
 ```
-rpi-a% wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/satellite_setup.sh' | sh 
+rpi-b% wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/satellite_setup.sh' | sh 
 ```
 9. Restart both RPi-A and RPi-B.
 
