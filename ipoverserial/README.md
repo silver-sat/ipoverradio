@@ -1,4 +1,4 @@
-# ipoverserial
+# IP over Serial
 Demonstration code / configuration for setting up a raspberry pi internet connection over a serial link to another (internet connected) raspberry pi. Tested on two Raspbery Pi Zero Ws running Rapberian buster. 
 
 ## Preamble
