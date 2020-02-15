@@ -23,14 +23,14 @@ Get things up and running so both devices can be accessed on the command-line fr
 7. On RPi-A, download [bridge_setup.sh](bridge_setup.sh) and execute. This will:
    1. Insert the code [rc.local.insert.sh](rc.local.insert.sh) into `/etc/rc.local` to execute commands for the bridge raspberry pi at at startup. 
    2. Add [axports.append.txt](axports.append.txt) to the end of `/etc/ax25/axports`.
-   3. Download [bridge_startup.sh](bridge_startup.sh) to `/home/pi` and link it to `/home/pi/.startup.sh` so that the insert of step 1. will execute it.
+   3. Download [bridge_startup.sh](bridge_startup.sh) to `/home/pi` and link it to `/home/pi/.startup.sh` so that the insert of step 7.i will execute it.
 ```
 wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/bridge_setup.sh' | sh 
 ```
 8. On RPi-B, download the [satellite_setup.sh](satellite_setup.sh) and execute.  This will:
    1. Insert the code [rc.local.insert.sh](rc.local.insert.sh) into `/etc/rc.local` to execute commands for the bridge raspberry pi at at startup. 
    2. Add [axports.append.txt](axports.append.txt) to the end of `/etc/ax25/axports`.
-   3. Download [satellite_startup.sh](satellite_startup.sh) to `/home/pi` and link it to `/home/pi/.startup.sh` so that the insert of step 1. will execute it.
+   3. Download [satellite_startup.sh](satellite_startup.sh) to `/home/pi` and link it to `/home/pi/.startup.sh` so that the insert of step 8.i will execute it.
 ```
 wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/satellite_setup.sh' | sh 
 ```
@@ -80,7 +80,7 @@ From 192.168.100.101 icmp_seq=6 Destination Host Unreachable
 12 packets transmitted, 6 received, +6 errors, 50% packet loss, time 361ms
 rtt min/avg/max/mdev = 113.401/692.504/2249.590/808.148 ms, pipe 4
 ```
-5. Attempt to connect to RPi-B at 10.0.0.102. If the startup script was successful, this will fail. If you are able to connect and login, see what is in the `/home/pi/.startup.sh` file. This may indicate what went wrong. Issue the commands in `.startup.sh` manually, with `sudo`, as needed. Use the diagnistics below to determine what isn't working right.
+5. Attempt to ssh to RPi-B at 10.0.0.102 using PuTTY. If the startup script was successful, this will fail. If you are able to connect and login, see what is in the `/home/pi/.startup.sh` file. This may indicate what went wrong. Issue the commands in `satellite_startup.sh` manually, with `sudo`, as needed. Use the diagnistics below to determine what isn't working right.
 6. Try to connect to RPi-B from RPi-A using the `ssh` command. 
 ```
 rpi-a% ssh 192.168.100.102
@@ -121,7 +121,7 @@ wlan0: flags=4098<BROADCAST,MULTICAST>  mtu 1500
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
 ```
-8. Check `route` - should show a route for `192.168.100.XXX` via `ax0`, and a default route for all IP address via `192.168.100.101` (RPi-A).
+8. Check `route` - should show a route for `192.168.100.XXX` via `ax0`, and a default route for all IP address via `ax0` and `192.168.100.101` (RPi-A).
 ```
 rpi-b% route -n 
 Kernel IP routing table
