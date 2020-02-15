@@ -1,6 +1,6 @@
 # IP via Arduino
 
-Demonstration code / configuration for setting up a raspberry pi internet connection over a serial link an arduino which acts as a serial relay connected to another (internet connected) raspberry pi. Tested on two Raspbery Pi Zero Ws running Rapberian buster, and an Arduino MEGA 2560. Note that the Arduino Uno has no (unoccupied) hardware serial pins, and so called soft serial cannot listen on more than one interface at a time. 
+Demonstration code / configuration for setting up a raspberry pi internet connection over a serial link to an arduino which acts as a serial relay connected to another (internet connected) raspberry pi. Tested on two Raspbery Pi Zero Ws running Rapberian buster, and an Arduino MEGA 2560. Note that the Arduino Uno has no (unoccupied) hardware serial pins, and so called soft serial cannot listen on more than one interface at a time. 
 
 ## Preamble
 See instructions for [IP over Serial](../ipoverserial/README.md) for the RPi configuration needed. This is not changed for IP via Arduino.
