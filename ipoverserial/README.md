@@ -80,7 +80,7 @@ From 192.168.100.101 icmp_seq=6 Destination Host Unreachable
 12 packets transmitted, 6 received, +6 errors, 50% packet loss, time 361ms
 rtt min/avg/max/mdev = 113.401/692.504/2249.590/808.148 ms, pipe 4
 ```
-5. Attempt to ssh to RPi-B at 10.0.0.102 using PuTTY. If the startup script was successful, this will fail. If you are able to connect and login, see what is in the `/home/pi/.startup.sh` file. This may indicate what went wrong. Issue the commands in `satellite_startup.sh` manually, with `sudo`, as needed. Use the diagnistics below to determine what isn't working right.
+5. Attempt to ssh to RPi-B at 10.0.0.102 using PuTTY. If the startup script was successful, this will fail. If you are able to connect and login, see what is in the `/home/pi/.startup.log` file. This may indicate what went wrong. Issue the commands in `satellite_startup.sh` manually, with `sudo`, as needed. Use the diagnistics below to determine what isn't working right.
 6. Try to connect to RPi-B from RPi-A using the `ssh` command. 
 ```
 rpi-a% ssh 192.168.100.102
