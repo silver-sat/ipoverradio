@@ -28,14 +28,14 @@ Get things up and running so both devices can be accessed on the command-line fr
 4. On RPi-A, download [bridge_setup.sh](bridge_setup.sh) and execute. This will:
    1. Insert the code [rc.local.insert.sh](rc.local.insert.sh) into `/etc/rc.local` to execute commands for the bridge raspberry pi at at startup. 
    2. Add [axports.append.txt](axports.append.txt) to the end of `/etc/ax25/axports`.
-   3. Download [bridge_startup.sh](bridge_startup.sh) to `/home/pi` and link it to `/home/pi/.startup.sh` so that the insert of step 4.i will execute it.
+   3. Download [bridge_startup_ax25.sh](bridge_startup_ax25.sh) to `/home/pi` and link it to `/home/pi/.startup.sh` so that the insert of step 4.i will execute it.
 ```
 wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/bridge_setup.sh' | sh 
 ```
 5. On RPi-B, download the [satellite_setup.sh](satellite_setup.sh) and execute.  This will:
    1. Insert the code [rc.local.insert.sh](rc.local.insert.sh) into `/etc/rc.local` to execute commands for the bridge raspberry pi at at startup. 
    2. Add [axports.append.txt](axports.append.txt) to the end of `/etc/ax25/axports`.
-   3. Download [satellite_startup.sh](satellite_startup.sh) to `/home/pi` and link it to `/home/pi/.startup.sh` so that the insert of step 5.i will execute it.
+   3. Download [satellite_startup_ax25.sh](satellite_startup_ax25.sh) to `/home/pi` and link it to `/home/pi/.startup.sh` so that the insert of step 5.i will execute it.
 ```
 wget -q -O - 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/satellite_setup.sh' | sh 
 ```
