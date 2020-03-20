@@ -16,7 +16,7 @@ See instructions for [IP over Serial](../ipoverserial/README.md) for the RPi con
    * RPi-B GPIO TX (pin 8) to LLC A4
    * RPi-B GPIO 3.3V (pin 1) to LLC LV
    * MEGA GND to LLC HIGH-SIDE GND
-   * MEGA 3.3V to LLC HV
+   * MEGA 5V to LLC HV
    * MEGA TX3 (pin 14) to LLC B1
    * MEGA RX3 (pin 15) to LLC B2
    * MEGA TX2 (pin 16) to LLC B3
