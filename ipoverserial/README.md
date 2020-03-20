@@ -1,6 +1,8 @@
 # IP over Serial
 Demonstration code / configuration for setting up a raspberry pi internet connection over a serial link to another (internet connected) raspberry pi. Tested on two Raspbery Pi Zero Ws running Rapberian buster. 
 
+This strategy can be used to support IP connection via serial using AX25 or PPP. 
+
 ## Preamble
 Get things up and running so both devices can be accessed on the command-line from a single laptop.
 1. Get each raspbery pi running and configured by connecting a keyboard, mouse, and monitor as needed. Call one `rpi-a` and one `rpi-b`. 
