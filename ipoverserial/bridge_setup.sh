@@ -20,7 +20,8 @@ sudo mv -f /tmp/axports /etc/ax25/axports
 sudo chown root.root /etc/ax25/axports
 
 # Download and place appropriate startup script
-wget -q -O bridge_startup.sh 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/bridge_startup.sh'
+wget -q -O bridge_startup.sh 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/bridge_startup_ax25.sh'
+wget -q -O bridge_startup.sh 'https://raw.githubusercontent.com/silver-sat/ipoverradio/master/ipoverserial/bridge_startup_ppp.sh'
 rm -f .startup.sh
-ln -s bridge_startup.sh .startup.sh
+ln -s bridge_startup_ax25.sh .startup.sh
 chmod +x .startup.sh
