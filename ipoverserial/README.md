@@ -20,7 +20,9 @@ Get things up and running so both devices can be accessed on the command-line fr
    * RPi-A GPIO GND (pin 6) to RPi-B GPIO GND (pin 6)
    * RPi-A GPIO TX (pin 8) to RPi-B GPIO RX (pin 10)
    * RPi-A GPIO RX (pin 10) to RPi-B GPIO TX (pin 8).
+   
    <A href="ipoverserial_schem.png"><img src="ipoverserial_schem.png" width="200"></A>
+   
 4. On RPi-A, download [bridge_setup.sh](bridge_setup.sh) and execute. This will:
    1. Insert the code [rc.local.insert.sh](rc.local.insert.sh) into `/etc/rc.local` to execute commands for the bridge raspberry pi at at startup. 
    2. Add [axports.append.txt](axports.append.txt) to the end of `/etc/ax25/axports`.
