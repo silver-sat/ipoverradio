@@ -6,7 +6,7 @@ Demonstration code / configuration for setting up a raspberry pi to respberry pi
 1. Arduino Uno software serial port does not seem up to the task of managing the serial communication with the RPis.
 1. The following setup will work for AX25 or PPP based IP connection (and the observations below seem to apply to both). 
 1. The arduino code is currently protocol-details-free (for better or worse). 
-1. The RPi sends serial data in what appears to be a single burst that is (substantially) bigger than the expected MTU data-packet size, and these large bursts do not appear to contain multiple packets.
+1. The RPi sends serial data in what appears to be a single burst that is sometimes (substantially) bigger than the expected MTU data-packet size, and these large bursts do not appear to contain multiple packets.
 1. The RFM95W chip can send at most 256 bytes per message and is only half duplex.
 1. The 484 MTU size for the RNode documentaiton for AX25 is intended to ensure that each packet requires at most two messages. 
 1. The RadioHead library suggested by AdaFruit for the RFM95W chip on Arduino does not make any attempt to solve the message size problem, in the arduino code shows one (imperfect) attempt to send each (large) message as multiple short messages. 
