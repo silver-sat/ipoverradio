@@ -7,8 +7,11 @@ Demonstration code / configuration for setting up a raspberry pi to respberry pi
 1. The following setup will work for AX25 or PPP based IP connection (and the observations below seem to apply to both). 
 1. The arduino code is currently protocol-details-free (for better or worse). 
 1. The RPi sends serial data in what appears to be a single burst that is sometimes (substantially) bigger than the expected MTU data-packet size, and these large bursts do not appear to contain multiple packets.
-1. The RFM95W chip can send at most 255 bytes per message and is only half duplex.
+   1. Revised, seems like most of the time, these larger serial data bursts are composed of intact, multiple KISS framed packets. 
+   1. There are also consistent 63 byte packets that start, but do not end with the KISS framing character 0xC0. 
+1. The RFM96W chip can send at most 255 bytes per message and is only half duplex.
 1. The 484 MTU size for the RNode documentaiton for AX25 is intended to ensure that each packet requires at most two messages, but given 4. its not yet clear how it guarantees this - though its protocol allows for at most a two message packet. 
+   1. I have used an MTU of 440 in the axports file to be well within the 2\*240 buffersize of two packets, with some overhead for the radio message header
 1. An alternative approach is the set such a small MTU that all packets require less than 255 bytes, but attempts to use smaller MTUs didn't appear to guarantee serial messages less than 255 bytes. 
 1. The RadioHead library suggested by AdaFruit for the RFM95W chip on Arduino does not make any attempt to solve the message size problem, the arduino code shows an (imperfect) attempt to send each (large) message as multiple short messages. 
 1. PPP supports (software) flow control on the serial port, but the Arduino has no hardware facility for this. Implementing software XON/XOFF flow control for the serial connection might make a difference, stoping the RPi from attempting to transmit packets when the arduino is busy with other things. 
