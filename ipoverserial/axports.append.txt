@@ -1,1 +1,1 @@
-serial  MYCALLSIGN      115200   440     10       Serial interface
+serial  MYCALL      115200   440     10       Serial interface
