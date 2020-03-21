@@ -2,7 +2,7 @@ set -x
 cd /home/pi
 
 # install ax25 tools
-sudo apt install ax25-apps ax25-tools ntpsec pppd
+sudo apt install ax25-apps ax25-tools ntpsec ppp
 
 # modify /etc/rc.local
 sed -e '/^fi$/,/^exit 0$/d' /etc/rc.local > /tmp/rc.local
