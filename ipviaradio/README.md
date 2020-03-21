@@ -45,7 +45,7 @@ See instructions for [IP over Serial](../ipoverserial/README.md) for the RPi con
   
    <A href="ipviaradio_schem.png"><img src="ipviaradio_schem.png" width=700></A>
    
-1. Push the file [RadioPassthrough2.ino](RadioPassthrough2.ino) to the Arduino Mega
+1. Push the file [RadioPassthrough.ino](RadioPassthrough.ino) to the Arduino Mega
 1. Reboot the raspberry pis. 
    
    
