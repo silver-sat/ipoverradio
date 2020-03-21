@@ -1,6 +1,6 @@
 # IP via Radio
 
-Demonstration code / configuration for setting up a raspberry pi to respberry pi IP connection via radio connected arduinos. Tested on two Raspbery Pi Zero Ws running Rapberian buster, two Arduino MEGA 2560s, each using a RFM95W radio chip via SPI.
+Demonstration code / configuration for setting up a raspberry pi to respberry pi IP connection via radio connected arduinos. Tested on two Raspbery Pi Zero Ws running Rapberian buster, two Arduino MEGA 2560s, each using a RFM96W radio chip via SPI.
 
 ## Notes
 1. Arduino Uno software serial port does not seem up to the task of managing the serial communication with the RPis.
