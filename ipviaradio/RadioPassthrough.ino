@@ -130,6 +130,13 @@ uint8_t getbyte(unsigned long a, uint8_t b) {
 }
 
 //
+// State variables for sending...
+//
+
+bool rpiread=true;
+bool radiotx=false;
+
+//
 // Initial setup of the arduino program
 //
 
@@ -165,24 +172,35 @@ void setup() {
         while (1);
     }
     setTxPower(5, false);
-    console("LoRa radio ready.");
+    console("LoRa radio ready.\n");
+
+    // initial state
+    rpiread=true;
+    radiotx=false;
 
     // Blink the LED three times
     blinkit(3);
+
 }
 
 //
 // Set up the buffers for the RPi serial messages and the Radio messages...
 //
-// Radio messages have a header of HEADERBYTES bytes folloed by a messages of up to RADBUFSIZE bytes 
-//
 
 #define RPIBUFSIZE 4096
-#define RADBUFSIZE 240
-#define HEADERBYTES 4
+#define RADBUFSIZE 255
+#define RADMAXMSG1 240
+#define RADMAXMSG2 220
+#define RADMAXMSG3 190
 
 uint8_t rpibuffer[RPIBUFSIZE];
-uint8_t radbuffer[RADBUFSIZE+HEADERBYTES];
+unsigned int rpibuflen = 0;
+unsigned int rpibufpos = 0;
+
+uint8_t radbuffer[RADBUFSIZE];
+uint8_t radbuflen;
+
+#define FEND 0xC0
 
 //
 // Repeating loop
@@ -193,146 +211,78 @@ void loop() {
     // Blink LED as needed...
     blinker();
 
-    // RPi Serial -> Radio messages
-    while (1) {
-
-        // Read message from RPi serial connection
-        // If nothing available, break out
-        unsigned int rpilen;
-        rpilen = rPi.readBytes(rpibuffer, RPIBUFSIZE);
-        if (rpilen == 0) {
-            break;
-        } else if (rpilen >= RPIBUFSIZE) {
-            console("Serial: Packet too big (%d), dropping\n", rpilen);
-            break;
+    if (rpiread) {
+        rpibuflen = rPi.readBytes(rpibuffer, RPIBUFSIZE);
+        if (rpibuflen > 0) {
+            console(" Serial read: %d bytes\n",rpibuflen);
+            rpiread = false;
+            radiotx = true;
+            rpibufpos = 0;
         }
+    }
 
-        // set up the radio message(s)...
-
-        // compute a checksum for the entire message
-        unsigned long rpicrc = crc32b(rpibuffer,rpilen);
-        
-        // header byte 1: message id, 0-254
-        radbuffer[0] = random(255); 
-
-        // header byte 2: least significant byte of crc32
-        radbuffer[1] = getbyte(rpicrc,0); 
-
-        // header byte 3: total number of blocks required
-        radbuffer[2] = rpilen/RADBUFSIZE + 1*(rpilen%RADBUFSIZE != 0); // block count
-
-        // send each block by radio
-        bool failed = false;
-        unsigned int blkstart;
-        uint8_t blknum;
-        for (blkstart=0, blknum=1; blkstart<rpilen; blkstart+=RADBUFSIZE, blknum+=1) {
-            uint8_t blklen = min(RADBUFSIZE,rpilen-blkstart);
-            // header byte 4: block number
-            radbuffer[3] = blknum;
-            memcpy(radbuffer+HEADERBYTES,rpibuffer+blkstart,blklen);
-            if (!radiosend(radbuffer,(blklen+HEADERBYTES))) {
-               failed = true;
-               break;
+    if (radiotx) {
+        unsigned int i,j,l;
+        i = rpibufpos;
+        for (j=(i+1); j<rpibuflen; j++) {
+            if (rpibuffer[j] == FEND) {
+                break;
             }
-            // console("Radio: Block sent: msgig %d crc1 %d blkcnt %d blknum %d length %d\n",
-            //         radbuffer[0],radbuffer[1],radbuffer[2],radbuffer[3],blklen+HEADERBYTES); 
-            
         }
-        if (!failed) {
-          
-           console("Serial ->> %4d %08lX ->> Radio\n",rpilen,rpicrc);
-
-           blinkit(radbuffer[2]);
+        j = min((j+1),rpibuflen);
+        l = j-i;
         
+        // Frame goes from i ... (j-1), length of frame is (j-i)
+        if ((l <= 3*RADMAXMSG3) && (rpibuffer[i] == FEND) && ((rpibuffer[i+1]&0x0F) == 0) && (rpibuffer[j-1] == FEND)) {
+            console("      Packet: 0x%02X 0x%02X ... 0x%02X (%u bytes)\n",rpibuffer[i],(rpibuffer[i+1]&0x0F),rpibuffer[j-1],l);
+            if (l <= RADMAXMSG1) {
+                console("  Radio send: %u - %u (%d bytes)\n",i,j-1,l);
+                radiosend(rpibuffer+i,l);
+                blinkit();
+            } else if (l <= 2*RADMAXMSG2) {
+                console("  Radio send: %u - %u (%d bytes)\n",i,i+RADMAXMSG2-1,RADMAXMSG2);
+                radiosend(rpibuffer+i,RADMAXMSG2);
+                blinkit();
+                console("  Radio send: %u - %u (%d bytes)\n",i+RADMAXMSG2,j-1,l-RADMAXMSG2);
+                radiosend(rpibuffer+i+RADMAXMSG2,l-RADMAXMSG2);
+                blinkit();
+            } else {
+                console("  Radio send: %u - %u (%d bytes)\n",i,i+RADMAXMSG3-1,RADMAXMSG3);
+                radiosend(rpibuffer+i,RADMAXMSG3);
+                blinkit();
+                console("  Radio send: %u - %u (%d bytes)\n",i+RADMAXMSG3,i+2*RADMAXMSG3-1,RADMAXMSG3);
+                radiosend(rpibuffer+i+RADMAXMSG3,RADMAXMSG3);
+                blinkit();
+                console("  Radio send: %u - %u (%d bytes)\n",i+2*RADMAXMSG3,j-1,l-2*RADMAXMSG3);
+                radiosend(rpibuffer+i+2*RADMAXMSG3,l-2*RADMAXMSG3);
+                blinkit();
+            }
+        } else {
+            if ((j-i) == 4) {
+              console(" Ctl Packet: 0x%02X 0x%02X 0x%02X 0x%02X\n",rpibuffer[i],(rpibuffer[i+1]&0x0F),rpibuffer[i+2],rpibuffer[j-1]);
+            } else {
+              console(" Bad Packet: 0x%02X 0x%02X ... 0x%02X\n",rpibuffer[i],(rpibuffer[i+1]&0x0F),rpibuffer[j-1]);
+            }
         }
 
-        break;
+        rpibufpos = j;
+        if (rpibufpos == rpibuflen) {
+            rpibufpos = 0;
+            rpiread = true;
+            radiotx = false;
+        } 
         
     }
 
-    // Radio -> RPi Serial 
-    while (1) {
-      
-        unsigned int rpilen=0;
-
-        // msgid 255 is not a valid msg id, use to indicate no radio message received. 
-        uint8_t msgid = 255;
-        uint8_t msgcrc1 = 0;
-        uint8_t blkcnt = 0;
-        uint8_t blknum = 0;
-        
-        while (1) {        
-
-            // check for a radio message
-            uint8_t radlen = RADBUFSIZE+HEADERBYTES;
-            if (radiorecv(radbuffer, &radlen)) {
-                    // console("Radio: Block received: msgig %d crc1 %d blkcnt %d blknum %d length %d\n",
-                    //         radbuffer[0],radbuffer[1],radbuffer[2],radbuffer[3],radlen); 
-
-                    if (radbuffer[3] > 1) {
-                        // if this is not the first block, check that the first three bytes are consistent with the first block
-                        if (radbuffer[0] != msgid || radbuffer[1] != msgcrc1 || radbuffer[2] != blkcnt) {
-                            console("Radio: Bad block msgid (%d,%d), crc1 (%d,%d), or count (%d,%d) on following block.\n",
-                                    radbuffer[0],msgid,radbuffer[1],msgcrc1,radbuffer[2],blkcnt);
-                            // if not, break out and indicate that no message is available.
-                            msgid = 255;
-                            break;
-                        }
-                        // and the block number is one more than the previous one seen
-                        if (radbuffer[3] != blknum+1) {
-                            console("Radio: Bad block number (%d,%d) on following block.\n",radbuffer[3],blknum);
-                            // if not, break out and indicate that no message is available.
-                            msgid = 255;
-                            break;
-                        }
-                    } else if (radbuffer[3] == 1) {
-                      // record the values that do not change between blocks.
-                      msgid = radbuffer[0];
-                      msgcrc1 = radbuffer[1];
-                      blkcnt = radbuffer[2];
-                    } else {
-                      console("Radio: Bad block number (%d).\n",radbuffer[3]);
-                      msgid = 255;
-                      break;
-                    }
-                    blknum = radbuffer[3];
-
-                    // copy the payload of the block to the RPi buffer in the correct position. 
-                    memcpy(rpibuffer+(blknum-1)*RADBUFSIZE,radbuffer+HEADERBYTES,radlen-HEADERBYTES);
-                    
-                    if (blknum == blkcnt) {
-                        // if this is the last block, determine the length of the message, and break to send to RPi
-                        rpilen = (blkcnt-1)*RADBUFSIZE + (radlen-HEADERBYTES);
-                        break;
-                    }
-            } else {
-                // if not message available and we do not already have one or more blocks, break out
-                if (msgid == 255) {
-                    break;
-                } 
-            }
+    while (true) {
+        radbuflen = RADBUFSIZE;
+        if (radiorecv(radbuffer, &radbuflen)) {
+            console("  Radio recv: %d bytes\n",radbuflen);
+            rPi.write(radbuffer, radbuflen);
+            console("Serial write: %d bytes\n",radbuflen);
+        } else {
+            break;
         }
-
-        // If we have a message to send...
-        if (msgid != 255) {
-
-            // check the message crc32 against the one-byte CRC from the message header. 
-            unsigned long rpicrc = crc32b(rpibuffer, rpilen);
-            if (msgcrc1 == getbyte(rpicrc,0)) {
-          
-                rPi.write(rpibuffer, rpilen);
-
-                console("Serial <<- %4d %08lX <<- Radio\n",rpilen,rpicrc);
-                
-            } else {
-              
-                console("Radio: Bad packet crc, dropping.\n");
-            
-            }
-
-        }
-        
-        break;
-
     }
+
 }
