@@ -3,27 +3,21 @@
 Demonstration code / configuration for setting up a raspberry pi to respberry pi IP connection via radio connected arduinos. Tested on two Raspbery Pi Zero Ws running Rapberian buster, two Arduino MEGA 2560s, each using a RFM96W radio chip via SPI.
 
 ## Notes
-1. Arduino Uno software serial port does not seem up to the task of managing the serial communication with the RPis.
-1. The following setup will work for AX25 or PPP based IP connection (and the observations below seem to apply to both). 
-1. The arduino code is currently protocol-details-free (for better or worse). 
-1. The RPi sends serial data in what appears to be a single burst that is sometimes (substantially) bigger than the expected MTU data-packet size, and these large bursts do not appear to contain multiple packets.
-   1. Revised, seems like most of the time, these larger serial data bursts are composed of intact, multiple KISS framed packets. 
-   1. There are also consistent 63 byte packets that start, but do not end with the KISS framing character 0xC0. 
+1. The arduino code is designed for AX25 based IP connections, but could probably be addapted for PPP.
+1. The arduino code is designed to detect and transmit AX25 packets.
+1. The RPi sends serial data in blocks that may contain multiple KISS framed packets. 
 1. The RFM96W chip can send at most 255 bytes per message and is only half duplex.
-1. The 484 MTU size for the RNode documentaiton for AX25 is intended to ensure that each packet requires at most two messages, but given 4. its not yet clear how it guarantees this - though its protocol allows for at most a two message packet. 
-   1. I have used an MTU of 440 in the axports file to be well within the 2\*240 buffersize of two packets, with some overhead for the radio message header
-1. An alternative approach is the set such a small MTU that all packets require less than 255 bytes, but attempts to use smaller MTUs didn't appear to guarantee serial messages less than 255 bytes. 
-1. The RadioHead library suggested by AdaFruit for the RFM95W chip on Arduino does not make any attempt to solve the message size problem, the arduino code shows an (imperfect) attempt to send each (large) message as multiple short messages. 
-1. PPP supports (software) flow control on the serial port, but the Arduino has no hardware facility for this. Implementing software XON/XOFF flow control for the serial connection might make a difference, stoping the RPi from attempting to transmit packets when the arduino is busy with other things. 
-1. The connection works OK as long as the messages are one-way or the other, but when multiple simultaneous messages back and forth are sent, packtes get dropped. It is unclear whether these are droped in the serial connection, the radio connection etc. 10=20% of packets are marked as RX error. 
-1. Pings are easy as they are single direction and can be constrained in size. Big pings can be mostly reliable, even when multi-messages are needed.
-1. The connection will support a (very slow) SSH login from RPi-a to RPi-b, which suggests bi-directional communication is working. Diagnostic logs suggest that most of these IP packets are small and the packets are request and response, and seems to work OK. The connection seems to transmit about 100-200 bytes / sec in this mode. 
-1. The connection will not support a HTTP request download very well (at least using wget/curl) even for modest files (10K). 
-1. PPP is very "chatty" with lots of background messages unrelated to the IP traffic going back and forth while the connection is active - these cause problems - turning off compression helps because this reduces the number of the compression negotiation messages PPP is sending. Having the PPP connection drop and have to reinstate itself is not uncommon. 
-1. AX25 is almost completely stateless. It appears to essentially believe it is always up, with each new use of the connection a potential for success or failure. There is very little "additional" traffic over the connection other than the IP packets themselves. Howerver, it seems to be quite a bit slower. 
+1. Droping the MTU low enough to guarantee AX25 packets less than 255 bytes does not appear reliable, even though this appears technically legal, some documentation advises at least 476 bytes.
+1. Reliability of single messages seems to drop off (for me) above 250 bytes, not sure why.
+1. The arduino code works for 512 byte MTU, using up to three messages if necessary, per AX25/KISS frame.
+1. There is no acknowledgement of messages or packets in the radio layer.
+1. The connection works OK as long as the messages are one-way or the other, but when multiple simultaneous messages back and forth are sent, packtes get dropped. It is unclear whether these are droped in the serial connection, the radio connection etc. 
+1. Pings are easy as they are single direction and can be constrained in size. Big pings are mostly reliable, even when multi-messages are needed. The -s option for ping will change the size of the ping.
+1. The connection will support a (slow) SSH login from RPi-a to RPi-b, which suggests bi-directional communication is working. Diagnostic logs suggest that most of these IP packets are small and the packets are request and response, and seems to work OK. The connection seems to transmit about 100-200 bytes / sec in this mode. 
+1. The connection will support a HTTP request download using wget if --limit-rate 512 is used. 
 
 ## Preamble
-See instructions for [IP over Serial](../ipoverserial/README.md) for the RPi configuration needed. This is not changed for IP via Radio. Note that this infrastructure can support AX25 or PPP based connection.
+See instructions for [IP over Serial](../ipoverserial/README.md) for the RPi configuration needed. This is not changed for IP via Radio. Note that the MTU should be set to 512 in /etc/ax25/axports.
 
 ## Instructions (for each side of the radio link)
 1. Install [4-channel BSS138 I2C-safe Bi-directional Logic Level Converter](https://www.adafruit.com/product/757) (LLC) in breadboard. 
