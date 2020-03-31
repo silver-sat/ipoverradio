@@ -6,8 +6,8 @@ Demonstration code / configuration for setting up a raspberry pi to respberry pi
 1. The arduino code is designed for AX25 based IP connections, but could probably be adapted for PPP.
 1. The RPi sends serial data in blocks that may contain multiple KISS framed AX25 packets. 
 1. The RFM96W chip can send at most 255 bytes per radio message and can either listen or send, but not both at the same time. 
-1. Droping the MTU of the AX25 interface on the Raspberry Pi low enough to guarantee KISS framed AX25 packets less than 255 bytes does not appear reliable, even though this appears technically legal, some documentation advises at least 476 byte MTUs.
-1. Reliability of single radio messages seems to drop off (for me) above 250 bytes.
+1. The [RadioHead](https://www.airspayce.com/mikem/arduino/RadioHead) RH_RF95 class uses 4 bytes for the header, so can send just 251 bytes per message. 
+1. Droping the MTU of the AX25 interface on the Raspberry Pi low enough to guarantee KISS framed AX25 packets less than 251 bytes does not appear reliable, even though this appears technically legal, some documentation advises at least 476 byte MTUs.
 1. Using an MTU of 476 generates packets with sizes greater than 500 bytes, there seems to be as much as 36 bytes of header, therefore, we need at least three messages per packet to guarantee delivery of the KISS framed AX25 packets. 
 1. The arduino code works for 512 byte MTU, using up to three messages if necessary, per AX25/KISS frame.
 1. There is no acknowledgement of messages or packets in the radio layer.
